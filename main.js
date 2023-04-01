@@ -6,6 +6,7 @@ const mobileMenu = document.querySelector('.menu-mobile')
 const shoppingCartContainer = document.querySelector('#shoppingCartContainer')
 const productDetailContainer = document.querySelector('#productDetail')
 const cardsContainer = document.querySelector('.cards-container')
+const myOrderContent = document.querySelector('.my-order-content')
 
 
 menuEmail.addEventListener('click', toggleDesktopMenu)
@@ -64,6 +65,16 @@ function openProductDetailAside(product) {
     renderProductDetail(product);
     const productDetailCloseIcon = document.querySelector('.product-detail-close')
     productDetailCloseIcon.addEventListener('click', closeProductDetailAside)
+
+    addToCart(product);
+}
+
+function addToCart(product) {
+    const addToCartButton = document.querySelector('.add-to-cart-button');
+    addToCartButton.addEventListener('click', () => {
+        renderMyOrderContent(product);
+        console.log('Entro')
+    })
 }
 
 function closeProductDetailAside() {
@@ -219,4 +230,36 @@ function renderProductDetail(product) {
         addToCartButton.replaceChildren(iconAddCart)
 
         productDetailContainer.replaceChildren(productDetailClose, productImage, productInfo, precio, Nombre, descripcion, addToCartButton)
+}
+
+function renderMyOrderContent(product) {
+    // <div class="my-order-content">
+    //     <div class="shopping-cart">
+    //       <figure>
+    //         <img src="https://images.pexels.com/photos/276517/pexels-photo-276517.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="bike">
+    //       </figure>
+    //       <p>Bike</p>
+    //       <p>$30,00</p>
+    //       <img src="./icons/icon_close.png" alt="close">
+    //     </div>
+    const shoppingCart = document.createElement('div');
+    shoppingCart.classList.add('shopping-cart')
+
+    const figureObject = document.createElement('figure');
+    const imageProduct = document.createElement('img');
+    imageProduct.setAttribute('src', product.image);
+
+    const Nombre = document.createElement('p');
+    Nombre.innerText = product.name;
+
+    const Precio = document.createElement('p');
+    Precio.innerText = product.price;
+
+    const iconClose = document.createElement('img');
+    iconClose.setAttribute('src', './icons/icon_close.png');
+
+    figureObject.append(imageProduct);
+    shoppingCart.append(figureObject, Nombre, Precio, iconClose);
+
+    myOrderContent.insertAdjacentElement("afterbegin", shoppingCart);
 }
